@@ -1,0 +1,35 @@
+services:
+  # ----------------------------
+  # Backend API (Node.js/Express)
+  # ----------------------------
+  - type: web
+    name: mern-backend
+    env: node
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && node server.js"
+    plan: free
+    autoDeploy: true
+
+    envVars:
+      - key: NODE_ENV
+        value: "production"
+      - key: PORT
+        value: "10000"
+      - key: MONGODB_URI
+        value: ""
+      - key: JWT_SECRET
+        value: ""
+
+  # ----------------------------
+  # Frontend (React Build)
+  # ----------------------------
+  - type: web
+    name: mern-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "frontend/build"
+    autoDeploy: true
+
+    envVars:
+      - key: REACT_APP_API_URL
+        value: "https://mern-backend.onrender.com"
